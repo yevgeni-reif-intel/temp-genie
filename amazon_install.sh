@@ -20,8 +20,6 @@ do
    echo "$server_ip" >> /tmp/dl-genie/amazon_hosts
 done
 
-echo $all_ips
-
 echo "[dlgenie:vars]" >> /tmp/dl-genie/amazon_hosts
 echo "ansible_ssh_user=core" >> /tmp/dl-genie/amazon_hosts
 echo 'ansible_python_interpreter="PATH=/home/core/bin:$PATH python"' >> /tmp/dl-genie/amazon_hosts
@@ -30,7 +28,10 @@ echo "Please save your private key pem file as: /tmp/dl-genie/private-key.pem"
 echo "press any key when done"
 read dummy
 
-DL_GENIE_CONTAINER=intelaa/dl-genie-ansible:0.0.1
-docker run -it --volume=/tmp/dl-genie:/workspace ${DL_GENIE_CONTAINER} ansible-playbook /etc/ansible/deploy_amazon_dlgenie.yml -i /workspace/amazon_hosts --private-key=/workspace/private-key.pem -vvvv
+DL_GENIE_ANSIBLE_CONTAINER=intelaa/dl-genie-ansible:0.0.1
+DL_GENIE_ANSIBLE_CONTAINER_NAME=dl-genie-ansible
+
+docker pull ${DL_GENIE_ANSIBLE_CONTAINER}
+docker run --rm -it --volume=/tmp/dl-genie:/workspace --name ${DL_GENIE_ANSIBLE_CONTAINER_NAME} ${DL_GENIE_ANSIBLE_CONTAINER} ansible-playbook /etc/ansible/deploy_amazon_dlgenie.yml -i /workspace/amazon_hosts --private-key=/workspace/private-key.pem -vvvv
 
 docker exec -it dl-genie /bin/bash /opt/configureSSHD.sh $all_ips
