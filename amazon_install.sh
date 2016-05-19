@@ -5,8 +5,6 @@ read cluster_size
   if (("$cluster_size" > "16")); then
       echo "Your cluster size must be less than 16"
       exit 0
-  else
-     continue
 fi
 
 mkdir -p /tmp/dl-genie/
