@@ -2,9 +2,9 @@
 # Get cluster parameters
 echo "Please enter the cluster size: "
 read cluster_size
-  if (("$cluster_size" > "16")); then
-      echo "Your cluster size must be less than 16"
-      exit 0
+if (("$cluster_size" > "16")); then
+    echo "Your cluster size must be less than 16"
+    exit 0
 fi
 
 mkdir -p /tmp/dl-genie/
@@ -14,18 +14,20 @@ do
     echo "Please enter server ${i} IP: "
     read server_ip
     all_ips=$all_ips" $server_ip";#concatencate all ips
-
-#    sed -i '1i"$server_ip"' /tmp/dl-genie/amazon_hosts
-   echo "$server_ip" >> /tmp/dl-genie/amazon_hosts
+    echo "$server_ip" >> /tmp/dl-genie/amazon_hosts
 done
 
 echo "[dlgenie:vars]" >> /tmp/dl-genie/amazon_hosts
 echo "ansible_ssh_user=core" >> /tmp/dl-genie/amazon_hosts
 echo 'ansible_python_interpreter="PATH=/home/core/bin:$PATH python"' >> /tmp/dl-genie/amazon_hosts
 
-echo "Please save your private key pem file as: /tmp/dl-genie/private-key.pem"
-echo "Press any key when done..."
-read dummy
+#check if private-key exists
+while [ ! -f /tmp/dl-genie/private-key.pem ]
+do
+    echo "Private key could not be found. Please save your private key pem file as: /tmp/dl-genie/private-key.pem"
+    echo "Press any key when done..."
+    read dummy
+done
 
 DL_GENIE_ANSIBLE_CONTAINER=intelaa/dl-genie-ansible:0.0.1
 DL_GENIE_ANSIBLE_CONTAINER_NAME=dl-genie-ansible
