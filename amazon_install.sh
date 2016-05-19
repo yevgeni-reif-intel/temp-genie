@@ -33,4 +33,4 @@ DL_GENIE_ANSIBLE_CONTAINER_NAME=dl-genie-ansible
 docker pull ${DL_GENIE_ANSIBLE_CONTAINER}
 docker run --rm -it --volume=/tmp/dl-genie:/workspace --name ${DL_GENIE_ANSIBLE_CONTAINER_NAME} ${DL_GENIE_ANSIBLE_CONTAINER} ansible-playbook /etc/ansible/deploy_amazon_dlgenie.yml -i /workspace/amazon_hosts --private-key=/workspace/private-key.pem -vvvv
 
-docker exec -it dl-genie /bin/bash /opt/configureSSHD.sh $all_ips
+docker exec -it dlgenie /bin/bash /opt/configureSSHD.sh $all_ips
