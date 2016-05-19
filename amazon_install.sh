@@ -9,6 +9,7 @@ read cluster_size
      continue
 fi
 
+mkdir -p /tmp/dl-genie/
 echo "[dlgenie]" > /tmp/dl-genie/amazon_hosts
 for ((i = 1; i <= cluster_size; i++))
 do
@@ -25,7 +26,7 @@ echo "ansible_ssh_user=core" >> /tmp/dl-genie/amazon_hosts
 echo 'ansible_python_interpreter="PATH=/home/core/bin:$PATH python"' >> /tmp/dl-genie/amazon_hosts
 
 echo "Please save your private key pem file as: /tmp/dl-genie/private-key.pem"
-echo "press any key when done"
+echo "Press any key when done..."
 read dummy
 
 DL_GENIE_ANSIBLE_CONTAINER=intelaa/dl-genie-ansible:0.0.1
