@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testclient
+spec:
+  containers:
+  - name: kafka
+    image: confluentinc/cp-kafka:5.0.1
+    command:
+      - sh
+      - -c
+      - "exec tail -f /dev/null"
+ 
+ 
+kubectl exec testclient -- /usr/bin/kafka-topics --zookeeper fog-zookeeper:2181 --list
+kubectl exec -ti testclient -- /usr/bin/kafka-console-consumer --bootstrap-server fog-kafka:9092 --topic aa_iot_devices  --from-beginning
+kubectl exec -ti testclient -- /usr/bin/kafka-console-consumer --bootstrap-server fog-kafka:9092 --topic aa_iot_sensor_rules --property print.key=true
+ 
